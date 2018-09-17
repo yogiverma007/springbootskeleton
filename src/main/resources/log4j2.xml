@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true" packages="springbootskeleton">
+
+    <Properties>
+        <Property name="baseDir">/log/UpdateEncryptApplication</Property>
+        <Property name="prefix">yoyo</Property>
+        <Property name="jsonPattern">{\"seq-no\" : \"%X{seq-no}\",\"date\" : \"%d{yyyy-MM-dd HH:mm:ss.SSS}\",\"level\" : \"%-5level\",\"logger\" : \"%logger{1}\",\"message\" : \"%msg%n\"}%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1}:%L - %msg%n%n" />
+        </Console>
+
+        <RollingRandomAccessFile name="APP_FILE" fileName="${baseDir}/${prefix}_application.log"
+                                 filePattern="${baseDir}/archive/${prefix}_application-%d{yyyy-MM-dd}-%i.log.gz">
+            <DefaultRolloverStrategy max="2"/>
+            <JSONLayout complete="false" compact="true" eventEol="true" properties="true"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="info">
+            <AppenderRef ref="APP_FILE" />
+        </Root>
+        
+    </Loggers>
+
+</Configuration>

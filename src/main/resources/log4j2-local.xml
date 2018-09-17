@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true">
+
+<Properties>
+    <Property name="baseDir">/log/updateEncrypt</Property>
+    <Property name="prefix">${env:HOSTNAME}</Property>
+</Properties>
+
+<Appenders>
+
+    <RollingFile name="APP_FILE" fileName="${baseDir}/${prefix}_application.log"
+                 filePattern="${baseDir}/archive/${prefix}_application-%d{yyyy-MM-dd}-%i.log.gz">
+        <DefaultRolloverStrategy max="200"/>
+        <JSONLayout complete="false" compact="true" eventEol="true" properties="true"/>
+        <Policies>
+            <TimeBasedTriggeringPolicy/>
+            <SizeBasedTriggeringPolicy size="200 MB"/>
+        </Policies>
+    </RollingFile>
+
+</Appenders>
+
+<Loggers>
+
+    <Logger name="springbootskeleton" level="INFO"/>
+
+    <Logger name="org.springframework" level="INFO"/>
+
+    <Root level="WARN">
+        <AppenderRef ref="APP_FILE"/>
+    </Root>
+
+</Loggers>
+
+</Configuration>
